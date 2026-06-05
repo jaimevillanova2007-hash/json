@@ -1,292 +1,71 @@
-# Guía para el README del Proyecto
+# Workspace Reservation System (SPA)
 
-> **Importante:** Este documento está escrito en español como guía para los coders. El archivo `README.md` que entreguen en su proyecto debe estar redactado completamente en inglés.
-
----
-
-# Project Canvas
-
-## Nombre sugerido del proyecto
-
-**Workspace Reservation System SPA**
-
-## Descripción general
-
-Este proyecto consiste en desarrollar una Single Page Application (SPA) utilizando JavaScript, Vite, TailwindCSS y JSON Server.
-
-La aplicación simula un sistema de reservas de espacios de trabajo donde los usuarios pueden autenticarse, navegar por rutas protegidas y gestionar información consumida desde una API simulada.
-
-El objetivo principal es evaluar conocimientos relacionados con:
-
-- Arquitectura SPA
-- Autenticación
-- Manejo de roles
-- Protección de rutas
-- Persistencia de sesión
-- Consumo de APIs
-- Manipulación del DOM
-- Modularización del código
-- Buenas prácticas de desarrollo
+## What is this system about?
+It is a professional platform designed to manage the reservation of meeting rooms, private offices, and coworking spaces within a company. It uses modern technologies like **Vanilla JavaScript**, **TailwindCSS** for design, and **JSON Server** to simulate a real database environment.
 
 ---
 
-## Contexto del problema
+## Main Features
 
-Una empresa dispone de diferentes espacios de trabajo compartidos:
+### 1. Role-Based Access Control (RBAC)
+*   **Administrators:**
+    *   Access to a global statistics dashboard.
+    *   Ability to view all reservations from all users.
+    *   Power to approve or reject pending requests.
+    *   Full management (Create, Edit, Delete) of workspaces.
+*   **Standard Users:**
+    *   Personal panel to view only their own reservations.
+    *   Ability to request new spaces.
+    *   Options to edit or cancel their own requests (subject to status rules).
 
-- Salas de reuniones
-- Oficinas privadas
-- Espacios de coworking
-- Auditorios
+### 2. Security
+*   **Authentication:** The system requires a valid email and password to log in.
+*   **Persistence:** Sessions are maintained using `localStorage`, keeping the user logged in even after a page refresh.
+*   **Route Protection:** Unauthorized users are redirected to the login page, and specific roles are restricted from accessing administrative sections.
 
-Para evitar conflictos de horarios y mejorar la organización interna, se requiere una plataforma que permita administrar reservas de dichos espacios.
-
-La aplicación debe contemplar dos roles:
-
-### Administrador (admin)
-
-Puede:
-
-- Ver todas las reservas
-- Crear reservas
-- Editar reservas
-- Eliminar reservas
-- Aprobar o rechazar reservas
-- Gestionar espacios de trabajo
-- Acceder a módulos administrativos
-
-### Usuario (user)
-
-Puede:
-
-- Consultar espacios disponibles
-- Crear reservas
-- Ver únicamente sus reservas
-- Modificar reservas pendientes
-- Cancelar sus propias reservas
+### 3. Business Rules
+*   **No Duplicates:** The system prevents overlapping reservations (same space, date, and time).
+*   **Status Workflow:** Reservations transition through "Pending", "Approved", "Rejected", or "Cancelled".
+*   **Modification Restrictions:** 
+    *   Users can only edit reservations that are still in "Pending" status.
+    *   Once a reservation is "Approved", it can only be cancelled, not modified.
 
 ---
 
-## Tecnologías utilizadas
-
-- JavaScript ES6+
-- Vite
-- TailwindCSS
-- JSON Server
-- Concurrently
-- HTML5
-- CSS3
+## Technical Structure
+*   **Modular Architecture:** The project is organized into **Controllers** (logic and event handling), **Views** (dynamic HTML generation), and **Components** (reusable UI elements like the sidebar or reservation cards).
+*   **True SPA:** Navigation is instant via a custom router. The page never reloads completely, ensuring a smooth and fluid user experience.
 
 ---
 
-## Estructura base entregada
+## How to use (Instructions)
 
-```txt
-src
-├── assets
-├── components
-│   └── Sidebar.js
-├── controllers
-│   └── login.controller.js
-├── router
-│   └── router.js
-├── views
-│   ├── loginView.js
-│   ├── homeView.js
-│   └── notFound.js
-├── utils.js
-├── main.js
-└── style.css
-```
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+2.  **Run the development environment:**
+    ```bash
+    npm run dev
+    ```
+    *This command will start both the Vite frontend and the JSON Server concurrently.*
 
 ---
 
-## Explicación de la arquitectura
+## Test Credentials
 
-### Components
+### Administrator
+*   **Email:** `admin@test.com`
+*   **Password:** `A123456`
 
-Contiene componentes reutilizables de interfaz.
+### Standard User
+*   **Email:** `user@test.com`
+*   **Password:** `A123456`
 
-Ejemplo:
-
-```txt
-components/
-└── Sidebar.js
-```
-
-El Sidebar puede reutilizarse en distintas vistas y centraliza la navegación principal del sistema.
-
-### Controllers
-
-Contienen la lógica de negocio y los eventos de la aplicación.
-
-Ejemplo:
-
-```txt
-controllers/
-└── login.controller.js
-```
-
-Responsabilidades:
-
-- Capturar eventos del formulario
-- Validar credenciales
-- Consumir la API
-- Gestionar el inicio de sesión
-- Redireccionar usuarios
-
-### Views
-
-Representan las pantallas de la aplicación.
-
-Actualmente:
-
-- Login
-- Home
-- Not Found (404)
-
-Cada vista retorna una plantilla HTML que es renderizada dinámicamente dentro del contenedor principal.
-
-### Router
-
-Administra la navegación interna de la SPA.
-
-Responsabilidades:
-
-- Renderizar vistas
-- Gestionar rutas
-- Proteger vistas privadas
-- Redireccionar usuarios
-- Mostrar páginas 404
-
-### Utils
-
-Contiene funciones auxiliares reutilizables.
-
-Actualmente:
-
-- Guardar sesión
-- Obtener sesión
-- Eliminar sesión
-- Validar autenticación
+### Standard User 2
+*   **Email:** `user2@test.com`
+*   **Password:** `A123456`
 
 ---
+*This project was developed as a performance test for modern JavaScript frontend development.*
 
-## API simulada
-
-La aplicación utiliza JSON Server para simular una API REST.
-
-Ejemplo de usuario administrador:
-
-```json
-{
-  "id": 1,
-  "email": "admin@test.com",
-  "password": "123456",
-  "role": "admin"
-}
-```
-
-Ejemplo de usuario estándar:
-
-```json
-{
-  "id": 2,
-  "email": "user@test.com",
-  "password": "123456",
-  "role": "user"
-}
-```
-
----
-
-## Configuración del entorno
-
-Instalar dependencias:
-
-```bash
-npm install
-```
-
-Ejecutar proyecto:
-
-```bash
-npm run dev
-```
-
-Este comando levanta simultáneamente:
-
-- Vite
-- JSON Server
-
-gracias al uso de Concurrently.
-
----
-
-## Scripts sugeridos
-
-```json
-{
-  "scripts": {
-    "client": "vite",
-    "server": "json-server --watch db.json --port 3000",
-    "dev": "concurrently \"npm run client\" \"npm run server\""
-  }
-}
-```
-
----
-
-## Credenciales de prueba
-
-Administrador:
-
-```txt
-admin@test.com
-123456
-```
-
-Usuario:
-
-```txt
-user@test.com
-123456
-```
-
----
-
-## Funcionalidades base incluidas
-
-- Login funcional
-- Consumo de API mediante JSON Server
-- Persistencia de sesión con LocalStorage
-- Logout
-- Router SPA
-- Protección básica de rutas
-- Sidebar reutilizable
-- Página 404 personalizada
-- Configuración de TailwindCSS
-- Configuración de Vite
-
----
-
-## Módulos pendientes para desarrollar
-
-Los coders deberán implementar:
-
-- CRUD de reservas
-- CRUD de espacios
-- Gestión de roles
-- Guards avanzados
-- Validaciones de permisos
-- Dashboard administrativo
-- Estadísticas
-- Filtros y búsquedas
-- Notificaciones
-- Reglas de negocio
-
----
-
-## Nota para los coders
-
-Aunque esta guía está escrita en español para facilitar la comprensión del proyecto, el archivo README.md entregado como evidencia debe estar redactado completamente en inglés.
