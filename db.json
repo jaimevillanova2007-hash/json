@@ -1,0 +1,21 @@
+{
+  "users": [
+    { "id": "1", "name": "Admin User", "email": "admin@test.com", "password": "123", "role": "admin" },
+    { "id": "2", "name": "Standard User", "email": "user@test.com", "password": "123", "role": "user" }
+  ],
+  "reservations": [
+    {
+      "id": "1",
+      "userId": "2",
+      "space": "Sala A",
+      "date": "2024-05-20",
+      "startTime": "09:00",
+      "endTime": "11:00",
+      "reason": "Reunión de equipo",
+      "status": "pending"
+    }
+  ],
+  "spaces": [
+    { "id": "1", "name": "Sala A", "type": "Meeting Room", "capacity": 10, "status": "available" }
+  ]
+}
